@@ -6,12 +6,140 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoI7av5H3SWALDdJcwDBcRFS0-SAhP5vo"></script>
+    <style>
+      
+      /*#app {
+    position: fixed; 
+    top: 0; 
+    left: -50%; 
+    width: 200%; 
+    height: 200%;
+    background-image: url("/static/NorthCarolinaSunrise.jpg");
+  }
+  #app img {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0; 
+    margin: auto; 
+    min-width: 50%;
+    min-height: 50%;
+  }*/
+  /* html { 
+    background: url("/static/NorthCarolinaSunrise.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  } */
+  body, document { height: 100vh;}
+  
+  img.bg {
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+    
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+    
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  
+  @media screen and (max-width: 1024px) { /* Specific to this particular image */
+    img.bg {
+      left: 50%;
+      margin-left: -512px;   /* 50% */
+    }
+  }
+  .page-wrap{
+    position: relative;
+      /* width: 95vw;
+      margin: 5px auto;
+      padding: 20px; */
+      background: #ffffff00;
+      -moz-box-shadow: 0 0 20px black;
+      -webkit-box-shadow: 0 0 20px black;
+      box-shadow: 0 0 20px black;
+  }
+  .parallax {
+      /* The image used */
+      background-image: url("./static/NorthCarolinaSunrise.jpg");
+  
+      /* Set a specific height */
+      /* min-height: 100vh;  */
+  
+      /* Create the parallax scrolling effect */
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+  .image-title1 {
+      font-size: 35px;
+      position: absolute;
+      top: 731px;
+      left: 46px;
+      width: 100%;
+      max-width: 600px;
+      /* border: 1px solid white; */
+  }
+  .image-title2 {
+      font-size:35px;
+      position: absolute;
+      top: 858px;
+      left: 252px;
+      width: 100%;
+      max-width: 600px;
+      /* border: 1px solid white; */
+  }
+  
+  .image-title1,.image-title2{
+      font: 400 130px/0.8 'Great Vibes', Helvetica, sans-serif;
+      font-size: 75px;
+      color: #fff;
+      text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
+  }
+  
+      </style>
+
   </head>
   <body>
+    <!-- <img src="/static/NorthCarolinaSunrise.jpg" alt="" class="bg"> -->
+    <img src="<%= BASE_URL %>NorthCarolinaSunrise.jpg" alt="" class="bg">
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <div class="page-wrap">
+      <div id="app">
+        <h1>Hello...............</h1>
+      </div>
+    </div>
+    <!-- <script type="text/javascript">
+      window.onload = function () {
+          var script = document.createElement("script");
+          script.type = "text/javascript";
+          script.src = "http://jsonip.appspot.com/?callback=DisplayIP";
+          document.getElementsByTagName("head")[0].appendChild(script);
+      };
+      function DisplayIP(response) {
+        //  document.getElementById("ipaddress").innerHTML = "Your IP Address is " + response.ip;
+          console.log("Your IP Address is " + response.ip)
+      }
+  </script> -->
+    
+    <!-- built files will be auto injected -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.1/axios.js"></script>
+    <!-- <script src="https://checkout.stripe.com/checkout.js"></script> -->
+    <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
+    <!-- <script type="text/javascript" src="https://js.stripe.com/v2/"></script> -->
+    
+    <!-- <div id="app"></div> -->
     <!-- built files will be auto injected -->
   </body>
 </html>
