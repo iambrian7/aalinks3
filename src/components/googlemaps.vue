@@ -13,6 +13,7 @@
 </template>
 <script>
 import image from "@/assets/marker-icon-2x.png"
+// import {gmapApi} from 'vue2-google-maps'
 export default {
     // props: ['locations'],
 	data() {
@@ -139,7 +140,7 @@ export default {
         return content
         },
         makeHomeMarker(home){
-            console.log(`makeHomeMarker: address=${home.address} lat=${home.lat} lng=${home.lng}`)
+            // console.log(`makeHomeMarker: address=${home.address} lat=${home.lat} lng=${home.lng}`)
                 var latlng = new google.maps.LatLng(home.lat, home.lng);
                 var marker = new google.maps.Marker({
                     position: latlng,
@@ -189,7 +190,7 @@ export default {
             this.markers = [];
             // add home marker
              this.home = this.$store.state.meetings.home;// home marker is green
-                console.log(`googlemaps:makeNewMarkers: home=${JSON.stringify(this.home,null,3)}`)
+                // console.log(`googlemaps:makeNewMarkers: home=${JSON.stringify(this.home,null,3)}`)
             this.markers.push(this.makeHomeMarker(this.home));
             if (!locations || locations.length == 0){
                 console.log("no locations to mark")
@@ -256,7 +257,7 @@ export default {
             //         console.log('initMap: locations undefined***************************************')
             //     }
         //    console.log(`locations changed ${JSON.stringify(val)}`)
-           console.log(`locations changed number= ${val.length}`)
+     //      console.log(`locations changed number= ${val.length}`)
            if (this.map){
                this.makeNewMarkers(val);
            }
@@ -265,13 +266,14 @@ export default {
     },
    },
   computed: {
-      storedLocations: function(){
+ //    google: gmapApi,
+    storedLocations: function(){
           return this.$store.state.meetings.locations;
       }
   },
     created(){
         // debugger
-      console.log("created meetings..........")
+    //   console.log("created meetings..........")
     },
   mounted: function(){
     //   debugger
@@ -285,6 +287,11 @@ export default {
     } else {
         this.locationsToMap = this.locations;
     }
+    console.log(`get map reference...................`)
+    // this.$refs.mapRef.$mapPromise.then((map) => {
+    //     this.map = map; // test init for 
+    //   map.panTo({lat: 1.38, lng: 103.80})
+    // })
     this.initMap();
     this.makeNewMarkers(locs);
 //   this.makeNewMarkers(this.locationsToMap);

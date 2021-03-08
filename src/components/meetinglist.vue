@@ -41,7 +41,7 @@ export default {
 
     viewMeeting: function(meeting){
     //  debugger
-      console.log("view meeting " + JSON.stringify(meeting, null, 3))
+     // console.log("view meeting " + JSON.stringify(meeting, null, 3))
       this.$store.dispatch("setViewMeeting", meeting)
       this.$router.push({path:`/meeting/${meeting.slug}`})
     },
@@ -91,13 +91,13 @@ export default {
   },
   created: function(){
    // debugger;
-   console.log("meetinglist created")
+ //  console.log("meetinglist created")
     this.meetings.forEach(function(m){
       this.meetingObj[m._id] = m;  
       },this)
   },
     updated: function(){
-      console.log("meetinglist updated")
+//      console.log("meetinglist updated")
    // debugger;
     this.meetings.forEach(function(m){
       this.meetingObj[m._id] = m;  

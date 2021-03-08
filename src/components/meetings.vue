@@ -249,13 +249,10 @@ export default {
     },
   },
   created(){
-      console.log("created meetings..........")
-     // debugger
-      this.getAddressFromLatLng();
+    //  this.getAddressFromLatLng();
       this.mileMax = this.$store.getters.getMileMax
       this.meetings = this.$store.getters.getFilteredMeetings
       this.$store.state.meetings.filters.day = this.day;
-    //  this.mileMax = 40;
     }
 }
 </script>

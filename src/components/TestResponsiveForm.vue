@@ -1,6 +1,9 @@
 <template>
   <div class="test-responsive-form">
       <responsive-form :contact="formAddress"></responsive-form>
+ <!-- 
+<GmapMap map-type-id="roadmap" :zoom="15" :center="{lat: -6.893, lng: 107.609}" style="width: 600px; height: 400px">
+</GmapMap> -->
   </div>
 </template>
 

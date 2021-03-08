@@ -26,7 +26,7 @@ router.get('/meetingsx', function(req, res, next) {
   console.warn("%cThis is a green text", "color:green");
   console.log("routes/meetings.js/meetingsx: got miles= " + miles + " lat=" + lat + " lng=" + lng)
   console.log("got miles= " + miles + " lat=" + lat + " lng=" + lng)
-  const mymeetings = md.geofind(5,lat,lng);
+  const mymeetings = md.geofind(miles,lat,lng);
   // const mymeetings = md.geofind(50,lat,lng);
   console.log("got meetings = " + mymeetings.length)
   res.status(200).json(mymeetings)

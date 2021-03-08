@@ -2,11 +2,14 @@
   <div id="app">
     <aalinks-nav></aalinks-nav>
     <router-view></router-view>
+    <GmapMap v-show="showInitMap" map-type-id="roadmap" :zoom="15" :center="{lat: -6.893, lng: 107.609}" style="width: 600px; height: 400px">
+</GmapMap>
   </div>
 </template>
 
 <script>
 import Navigate from '@/components/navigation'
+
 export default {
   name: 'app',
   components: {
@@ -15,6 +18,7 @@ export default {
    data () {
     return {
       apimessage: 'Welcome to Your Vue.js no server yet .............',
+      showInitMap: false,
       lat: 44.9169,
       lng: -93.4450,
       meetings: [],
@@ -33,7 +37,6 @@ export default {
     
   },
   mounted() {
-    console.log("app.vue mounted................")
     this.$store.dispatch("getAllMeetings");
     this.$store.dispatch("setOptions",{
       picked: "", // default to all meetings

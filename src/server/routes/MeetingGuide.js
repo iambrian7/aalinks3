@@ -28,8 +28,8 @@ const meetings = globalMeetings.map(x => {
   return x;
 })
 console.timeEnd('mapSlugs')
-console.log(`mapped locations: ${JSON.stringify(locations.slice(0,1), null, 3)}`)
-console.log(`mapped meetings: ${JSON.stringify(meetings.slice(0,1), null, 3)}`)
+// console.log(`mapped locations: ${JSON.stringify(locations.slice(0,1), null, 3)}`)
+// console.log(`mapped meetings: ${JSON.stringify(meetings.slice(0,1), null, 3)}`)
 
   module.exports = createMeetingGuide;
 

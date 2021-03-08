@@ -5,6 +5,7 @@ import axios from 'axios'
 function mileLimit(m,mileMax,lat,lng){
   // console.log("mileLimit-lat:" + this.lat + " lng:" + this.lng)
   // console.log("meeting  -lat:" + m.loc.coordinates[1] + " lng:" + m.loc.coordinates[0])
+  // console.log(`mileLimit:distance = ${distance(lat,lng,m.loc.coordinates[1],m.loc.coordinates[0])} for ${m.name}`)
    return (mileMax > distance(lat,lng,m.loc.coordinates[1],m.loc.coordinates[0])) 
  }
 
@@ -144,11 +145,14 @@ export default {
     
     var lat = state.filters.lat
     var lng = state.filters.lng
+    var cked = false;
     var newMeetings = state.meetings.filter(function(m){
-      return ((mileLimit(m,mileMax,lat,lng)) &&
+      cked = ((mileLimit(m,mileMax,lat,lng)) &&
       (day == 7 || day == m.day) &&
       (!picked || m.types.includes(picked))
       )
+      // console.log(cked + "  picked=" + picked + "  " + m.name )
+      return cked;
     })
     // console.log(`getFilteredMeetings:newMeetings ${newMeetings.length}`)
     return newMeetings
@@ -196,7 +200,7 @@ export default {
   actions: {
     getAllMeetings: async ({ commit, state }) => {
       
-      console.log(`store:axios:getAllMeetings: `)
+ //     console.log(`store:axios:getAllMeetings: `)
      // const home = {lat:44.9270729,lng:-93.4479148};
       // var uri = `/api/meetingsx/?miles=${5}&lat=${home.lat}&lng=${home.lng}`;
       var uri = `/api/meetingsx/?miles=${state.startMiles}&lat=${state.filters.lat}&lng=${state.filters.lng}`;
@@ -224,15 +228,15 @@ export default {
     getDupLocations: async ({ commit, state }) => {
       
       var res = await axios.get(`http://localhost:8086/api/locations/`)
-      console.log(`store:axios:getDupLocation: len=: ${res.data.length}`)
+      //console.log(`store:axios:getDupLocation: len=: ${res.data.length}`)
   
       commit('getDupLocations', res.data)
     },
     getDupLocationId: async ({ commit }, id ) => {
-      console.log(`store:meetings:getDupLocationId: ${id}`)
+  //    console.log(`store:meetings:getDupLocationId: ${id}`)
       var res = await axios.get(`http://localhost:8086/api/locations/${id}`)
       
-      console.log(`store:from axios:getDupLocationId: ${id}`)
+  //    console.log(`store:from axios:getDupLocationId: ${id}`)
       commit('getDupLocationId', res.data)
     },
     getAMeeting: async ({ commit, state }) => {
@@ -248,6 +252,7 @@ export default {
       commit('setOptions', options)
     },
     changeMileMax: ({ commit }, miles ) => {
+    //  console.log(`changeMileMax: ${miles}`)
       commit('changeMileMax', miles)
     },
     setSelectedMeeting: ({ commit }, meeting ) => {

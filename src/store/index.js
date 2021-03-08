@@ -16,7 +16,7 @@ function getAddressFromLatLng(){
 }
 
 function mileLimit(m,mileMax,lat,lng){
-  // console.log("mileLimit-lat:" + this.lat + " lng:" + this.lng)
+   console.log("mileLimit-lat:" + this.lat + " lng:" + this.lng)
   // console.log("meeting  -lat:" + m.loc.coordinates[1] + " lng:" + m.loc.coordinates[0])
    return (mileMax > distance(lat,lng,m.loc.coordinates[1],m.loc.coordinates[0])) 
  }
