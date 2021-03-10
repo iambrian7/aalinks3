@@ -2,8 +2,6 @@
   <div id="app">
     <aalinks-nav></aalinks-nav>
     <router-view></router-view>
-    <GmapMap v-show="showInitMap" map-type-id="roadmap" :zoom="15" :center="{lat: -6.893, lng: 107.609}" style="width: 600px; height: 400px">
-</GmapMap>
   </div>
 </template>
 

@@ -5,19 +5,34 @@
       <li
         v-for="(a, index) in meetings" 
         class='meeting-list-item' 
+        @click="contentVisible === a.id ? contentVisible = false : contentVisible = a.id"
+        v-bind:key='a.name'
+        >
+      <!-- <li
+        v-for="(a, index) in meetings" 
+        class='meeting-list-item' 
         v-bind:data-key='a.name'
         @click="viewMeeting(a)"
-        ><div class="meeting-list-info">
+        > -->
+        <div class="meeting-list-info">
          <span> {{a.time_formatted}}     {{ a.day | dayname}} </span>
          <!-- <span> {{a.time_formatted}}</span>   <span>{{ a.day | dayname}} </span> -->
          <span class="meeting-list-name">
            {{ a.name }}
           </span>
         </div>
-            <div v-if="detailsOpen == a.name" class="meeting-list-details">
-              Name: {{a.name}}
-            </div>
-          </li>
+        <div v-if="detailsOpen == a.name" class="meeting-list-details">
+          Name: {{a.name}}
+        </div>
+        <!-- <button @click="contentVisible === a.id ? contentVisible = false : contentVisible = a.id">Open</button> -->
+       <div class="open-meeting" v-if='contentVisible === a.id'>
+        <!-- <p>{{ a.name }}</p> -->
+        <p>{{ a.location }} <br>
+        {{ a.address }} <br>
+        {{ a.city }} {{ a.state }}</p>
+
+       </div>
+      </li>
     </ul>
   <!-- </div> end container -->
   </div>
@@ -31,6 +46,7 @@ export default {
   data () {
     return {
       msg: 'Welcome to Meeting List',
+      contentVisible: false,
       query: "",
       meetingObj: {},
       meetingIndex: [],
@@ -131,8 +147,11 @@ export default {
     height: 100vh;
 }
 .meeting-header {background: #ccc;}
-p {background: #ccc;}
+/* p {background: #ccc;} */
 .meetinglist ul {padding: 0;}
+.meetinglist li:hover{
+  background: #66b6fc;
+}
 .meeting-list-item { padding: 5px; border: 1px solid grey; margin: 5px;
  background: #fff; 
  background: linear-gradient(to bottom, #b2e1ff 0%,#66b6fc 100%);

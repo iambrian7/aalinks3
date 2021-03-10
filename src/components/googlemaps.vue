@@ -70,18 +70,11 @@ export default {
             initMap: function(){
 
                 var position =  {lat: 44.9169913, lng: -93.4435269}; // default position for map
-
-                // if (!Array.isArray(this.locations)){
-                //     this.locationsToMap.push(this.locations)
-                // }
                 if (this.locationsToMap.length){
                     var propLocation = this.locationsToMap[0];
-                    // var propLocation = this.locations[0];
-                    // console.log(`initMap: propLocation = ${JSON.stringify(propLocation,null,3)}`)
                     position = {lat:propLocation.loc.coordinates[1],lng:propLocation.loc.coordinates[0]}
-                // console.log(`initMap: locations = ${JSON.stringify(this.locationsToMap[0],null,3)}`)
                 } else {
-                    // console.log('initMap: locations undefined***************************************')
+                    console.log('initMap: locations undefined***************************************')
                 }
 
                 this.map = new google.maps.Map(document.getElementById('my-map'), {

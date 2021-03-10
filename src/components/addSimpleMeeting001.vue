@@ -1,6 +1,6 @@
 <template>
-<div id="testadd">
-<div class="add-meeting-info">
+<div class="add-meeting">
+  <div class="add-meeting-info">
     <h3>Please select the required fields:</h3>
   </div>
   <!-- group_name: "new group",
@@ -92,12 +92,10 @@
   </div> <!-- location-container -->
   </div>  <!-- add-meeting-container -->
     <hr> <hr>
-
-</div> <!-- END OF TESTADD -->
-</template>
-
+  </div> <!-- end of template div -->
+  </template>
+  
 <script>
-// import Navigate from '@/components/navigation'
 var STORAGE_KEY = 'aalinks-vuejs-2.0';
 
 var meetingStorage = {
@@ -177,7 +175,9 @@ var meetingStorage = {
   "W": "Women",
   "Y": "Young People"
 }
- // function parseGeoCoderResult(result){
+
+
+  // function parseGeoCoderResult(result){
   function parseGeoCoderResult(result,location){
     // let location = {};
      // console.log(`outsideFunction:${JSON.stringify(result, null, 4)}`)
@@ -212,17 +212,15 @@ var meetingStorage = {
           console.log("parseGeoCoderResult:  ended::::::::::formatted address found: " + JSON.stringify(location, null, 4))
       // return location;
   }
-
-  import GoogleMap from '@/components/googlemaps';
-
-export default {
-  name: 'testadd',
-  components: {
-    "google-map": GoogleMap
-  },
-   data () {
-    return {
-     fileLocationFound: null,
+   import GoogleMap from '@/components/googlemaps'
+  export default {
+    name: 'add-meeting',
+    components: {
+          "google-map": GoogleMap
+    },
+    data () {
+      return {
+        fileLocationFound: null,
         msg: 'Add a meeting',
         state: 1,
         meetingTopics: topic_codes,
@@ -305,205 +303,236 @@ export default {
         state: 1,
         selectedMeetings: [],
         errors: []
-      } 
-  },
-  methods: {
-    validateLocation: function(){
+      }
+    },
+    methods: {
+      validateLocation: function(){
         console.log("validateLocation:")
       this.locationError = "";
         if (this.newmeeting.location.location_name.length < 3){
           this.locationError = "Location Name is required"
           return false;
         } 
-      // check if location exists in current meeting set
-      debugger
-      var existingMeeting = this.$store.getters.getLocation(this.newmeeting.location);
-      console.log(`found exitsting meeting ${existingMeeting}`)
-      return false;
-      },
-    addMeeting: function(){
-      console.log(`addMeeting: meeting ********************`)
-      this.groupError = '';
-      alert("addMeeting............")
-      if (!this.validateLocation()){
-        return;
-      }
-      if (this.newmeeting.group.group_name.length < 3){
-        this.groupError = "Group Name is required"
-      } else {
-      meetingStorage.save(this.newmeeting);
-      this.$store.dispatch("addMeeting", this.newmeeting)
-      }
-    },
-  ckLocation: function(){
+    // check if location exists in current meeting set
     debugger
-    this.addressError = '';
-    console.log("addSimpleMeeting: ckLocation")
-    if (this.newmeeting.location.zip.length == 0 ||
-        this.newmeeting.location.city.length == 0 || 
-        // this.newmeeting.location.lat.length == 0 || 
-        // this.newmeeting.location.lng.length == 0 || 
-        this.newmeeting.location.state.length == 0 
-          // this.newmeeting.location.state.length == 0 || 
-      ){
-        this.addressError = "address invalid"
-      } else {
-          // first check for found location
-          var x = this.getFileLocation(this.newmeeting.location)
-          if (x.length > 0) {
-            this.checkMap()
-          } else {
-            console.log(`chLocation: no found locations`)
-          }
-          if (this.newmeeting.location.address.length == 0){
-              this.addressError = "we still need an address"
-          }
-      }
-  },
- getFileLocation(loc){
-    // dispatch
-      // debugger
-    var locations = this.$store.state.meetings.meetings.filter(x => {
-      var deltaLat = Math.abs(loc.lat - x.loc.coordinates[1]);
-      var deltaLng = Math.abs(loc.lng - x.loc.coordinates[0]);
-      return ((deltaLat + deltaLng) < 0.005)
-    })
-    return locations;
-  },
-  onClickMap (value) {
-    console.log("from addmeeting.vue: map clicked at: " + value.lat() + " : " + value.lng()) // someValue
-    var latlng = {lat: parseFloat( value.lat()), lng: parseFloat( value.lng())};
-    this.googleGeocoder({'location': latlng})
-  },
-  snap(text){
-    console.log("snap in parent.......")
-  },
-  checkMap: function(){
-    //  debugger;
-    this.addressError = '';
-    var a = this.newmeeting.location;
-    this.address = a.street + ", " + a.city + ", " + a.state + ", "+ a.zip;
-    this.getLocation();
-  },
-  back: function(){
-    if (this.state > 1){
-        this.state = this.state-1;
-        return;
-    }
-  },
-  googleGeocoder: function(location){
-    var self = this
-    console.dir("googleGeocoder: location = " + JSON.stringify(location, null, 4))
-    var geocoder = new google.maps.Geocoder();
-    if (geocoder) {
-        geocoder.geocode(location, (results, status) => {
-        // geocoder.geocode(location, function (results, status) {
-          console.log(`geocode location: ${JSON.stringify(location,null,3)}`)
-            debugger
-            if (status == google.maps.GeocoderStatus.OK) {
-                self.showResult(results[0])
-            } else {
-                console.log("GeocodeStatus is not ok ......." + status)
-                self.showResult(null)
-            }
-            });
+    var existingMeeting = this.$store.getters.getLocation(this.newmeeting.location);
+    console.log(`found exitsting meeting ${existingMeeting}`)
+    return false;
+      },
+      addMeeting: function(){
+    console.log(`addMeeting: meeting ********************`)
+        this.groupError = '';
+        alert("addMeeting............")
+        if (!this.validateLocation()){
+          return;
         }
-  },
-  getLocation: function(){ // get address from form input 
-      console.log("address = " + this.address)
-      var loc = this.newmeeting.location;
-      this.googleGeocoder({address: `${loc.address} ,${loc.city} , ${loc.state} ${loc.zip}`})
-  },
-  showResult: function(result){
-      // debugger
-      if (!result){
-        this.addressError = 'Google not able to determine address'  
-        return;
-      } 
-      // debugger
-    //  this.newmeeting.location = parseGeoCoderResult(result)
-    parseGeoCoderResult(result, this.newmeeting.location)
-    console.dir("googleGeocoder: this.newmeeting.location.mapped_address = " + JSON.stringify(this.newmeeting.location.mapped_address, null, 4))
-    console.log("newmeeting.location =" + JSON.stringify(this.newmeeting.location, null, 3))
-    ///////////  add a location to result   /////////////////////
-      //   debugger;
-    var alocation = this.newmeeting.location
-    var loc = [];
-    loc[0] = {
-        location: alocation.location_name,
-        address: alocation.street,
-        city: alocation.city,
-        state: alocation.state,
-        postal_code: alocation.zip,
-        loc : {
-            "type": "Point",
-            "coordinates": [
-                alocation.lng,
-                alocation.lat
-            ]
-        },
-        meetings: []
-    } // add this location data 
-    this.startLocations = loc//this.newmeeting.location
-  },
-  getLatitudeLongitude: (callback, address)  => {
-  var self = this;
-    //   debugger
-  // If adress is not supplied, use default value 'Ferrol, Galicia, Spain'
-  var address = address || '12913 Pioneer Rd., Minnetonka, MN';
-  console.log("check map address........ = " + address)
-  // Initialize the Geocoder
-  var geocoder = new google.maps.Geocoder();
-  if (geocoder) {
-      geocoder.geocode({
-          'address': address
-      }, function (results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            //   debugger;
-          
-            console.log("results[0] = " + JSON.stringify(results[0], null, 3))
-          
-              // self.result = results[0];
-              callback(results[0]);
+        if (this.newmeeting.group.group_name.length < 3){
+          this.groupError = "Group Name is required"
+        } else {
+        meetingStorage.save(this.newmeeting);
+        this.$store.dispatch("addMeeting", this.newmeeting)
+        }
+      },
+      ckLocation: function(){
+        debugger
+        this.addressError = '';
+        console.log("addSimpleMeeting: ckLocation")
+        if (this.newmeeting.location.zip.length == 0 ||
+            this.newmeeting.location.city.length == 0 || 
+            // this.newmeeting.location.lat.length == 0 || 
+            // this.newmeeting.location.lng.length == 0 || 
+            this.newmeeting.location.state.length == 0 
+              // this.newmeeting.location.state.length == 0 || 
+          ){
+            this.addressError = "address invalid"
           } else {
-              // debugger;
-              console.log("GeocodeStatus is not ok ......." + status)
-              callback(null);
-              // self.result = null;
-              // self.addressError = true;
+              // first check for found location
+              var x = this.getFileLocation(this.newmeeting.location)
+              if (x.length > 0) {
+                this.checkMap()
+              } else {
+                console.log(`chLocation: no found locations`)
+              }
+              if (this.newmeeting.location.address.length == 0){
+                  this.addressError = "we still need an address"
+              }
           }
-        });
-      }
-  }// end of getLatitudeLongitude
-
-  },
-  computed: {
-    selectTimes: function(){
+      },
+      getFileLocation(loc){
+        // dispatch
+          // debugger
+        var locations = this.$store.state.meetings.meetings.filter(x => {
+          var deltaLat = Math.abs(loc.lat - x.loc.coordinates[1]);
+          var deltaLng = Math.abs(loc.lng - x.loc.coordinates[0]);
+          return ((deltaLat + deltaLng) < 0.005)
+        })
+        return locations;
+      },
+      onClickMap (value) {
+        console.log("from addmeeting.vue: map clicked at: " + value.lat() + " : " + value.lng()) // someValue
+      var latlng = {lat: parseFloat( value.lat()), lng: parseFloat( value.lng())};
+      this.googleGeocoder({'location': latlng})
+      },
+        snap(text){
+          console.log("snap in parent.......")
+        },
+        checkMap: function(){
+          //  debugger;
+            this.addressError = '';
+            var a = this.newmeeting.location;
+            this.address = a.street + ", " + a.city + ", " + a.state + ", "+ a.zip;
+          this.getLocation();
+        },
+        back: function(){
+          if (this.state > 1){
+              this.state = this.state-1;
+              return;
+          }
+        },
+        googleGeocoder: function(location){
+          {
+              var self = this
+              console.dir("googleGeocoder: location = " + JSON.stringify(location, null, 4))
+              var geocoder = new google.maps.Geocoder();
+              if (geocoder) {
+                  geocoder.geocode(location, (results, status) => {
+                  // geocoder.geocode(location, function (results, status) {
+                    console.log(`geocode location: ${JSON.stringify(location,null,3)}`)
+                      debugger
+                      if (status == google.maps.GeocoderStatus.OK) {
+                          self.showResult(results[0])
+                      } else {
+                          console.log("GeocodeStatus is not ok ......." + status)
+                          self.showResult(null)
+                      }
+                      });
+                  }
+          }
+        },
+        getLocation: function(){ // get address from form input 
+            console.log("address = " + this.address)
+            var loc = this.newmeeting.location;
+            this.googleGeocoder({address: `${loc.address} ,${loc.city} , ${loc.state} ${loc.zip}`})
+        },
+        showResult: function(result){
+           // debugger
+            if (!result){
+              this.addressError = 'Google not able to determine address'  
+              return;
+            } 
+           // debugger
+          //  this.newmeeting.location = parseGeoCoderResult(result)
+          parseGeoCoderResult(result, this.newmeeting.location)
+          console.dir("googleGeocoder: this.newmeeting.location.mapped_address = " + JSON.stringify(this.newmeeting.location.mapped_address, null, 4))
+           console.log("newmeeting.location =" + JSON.stringify(this.newmeeting.location, null, 3))
+          ///////////  add a location to result   /////////////////////
+           //   debugger;
+              var alocation = this.newmeeting.location
+           var loc = [];
+          loc[0] = {
+              location: alocation.location_name,
+              address: alocation.street,
+              city: alocation.city,
+              state: alocation.state,
+              postal_code: alocation.zip,
+              loc : {
+                  "type": "Point",
+                  "coordinates": [
+                     alocation.lng,
+                     alocation.lat
+                  ]
+              },
+              meetings: []
+          } // add this location data 
+           this.startLocations = loc//this.newmeeting.location
+        },
+          getLatitudeLongitude: (callback, address)  => {
+              var self = this;
+           //   debugger
+          // If adress is not supplied, use default value 'Ferrol, Galicia, Spain'
+          var address = address || '12913 Pioneer Rd., Minnetonka, MN';
+          console.log("check map address........ = " + address)
+          // Initialize the Geocoder
+          var geocoder = new google.maps.Geocoder();
+          if (geocoder) {
+              geocoder.geocode({
+                  'address': address
+              }, function (results, status) {
+                  if (status == google.maps.GeocoderStatus.OK) {
+                   //   debugger;
+                  
+                   console.log("results[0] = " + JSON.stringify(results[0], null, 3))
+                  
+                     // self.result = results[0];
+                      callback(results[0]);
+                  } else {
+                      // debugger;
+                      console.log("GeocodeStatus is not ok ......." + status)
+                      callback(null);
+                     // self.result = null;
+                     // self.addressError = true;
+                  }
+               });
+              }
+          }// end of getLatitudeLongitude
+    },// end of methods
+    computed: {
+      selectTimes: function(){
       //alert("created")
       var times = []
       var hours, minutes, ampm;
-      for(var i = (1 * 60); i <= (24 * 60); i += 15){
-          hours = Math.floor(i / 60);
-          minutes = i % 60;
-          if (minutes < 10){
-              minutes = '0' + minutes; // adding leading zero
+        for(var i = (1 * 60); i <= (24 * 60); i += 15){
+            hours = Math.floor(i / 60);
+            minutes = i % 60;
+            if (minutes < 10){
+                minutes = '0' + minutes; // adding leading zero
+            }
+            ampm = hours % 24 < 12 ? 'AM' : 'PM';
+            hours = hours % 12;
+            if (hours === 0){
+                hours = 12;
+            }
+            times.push(hours + ':' + minutes + ' ' + ampm);
           }
-          ampm = hours % 24 < 12 ? 'AM' : 'PM';
-          hours = hours % 12;
-          if (hours === 0){
-              hours = 12;
-          }
-          times.push(hours + ':' + minutes + ' ' + ampm);
-        }
-        return times;
-    }
-  },
-  mounted() {
-  },
-}
-</script>
+          return times;
+      }
+    },
+    created: function(){
+        console.log("addSimpleMeeting created")
 
-<style>
+        var sampleMeeting = this.$store.state.meetings.meetings;
+        if (sampleMeeting.length == 0){
+          sampleMeeting = this.defaultLocation
+        }
+      //  console.log(`meeting:store: sampleMeeting=${JSON.stringify(sampleMeeting,null,3)}`)
+        var m = sampleMeeting[0];
+
+         var loc = {
+            location: m.location,
+            address: m.address,
+            city: m.city,
+            state: m.state,
+            postal_code: m.postal_code,
+            loc : m.loc,
+            meetings: []
+         };
+        var meeting = {
+          name: m.name,
+          slug: m.slug,
+          day : m.day,
+          time : m.time,
+          time_formatted: m.time_formatted,
+          types: m.types,
+          id: m.id
+        }
+        loc.meetings.push(meeting);
+        this.startLocations = [loc];
+    },
+  }
+  </script>
+  
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <style >
   .file-location{
     background: rgb(192, 156, 156);
     border: 1px solid black;
@@ -605,5 +634,5 @@ export default {
 .radio-inline input{
   font-size: 2rem;
 }
-
-</style>
+  </style>
+  
