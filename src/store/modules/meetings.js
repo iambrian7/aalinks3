@@ -200,7 +200,7 @@ export default {
   actions: {
     getAllMeetings: async ({ commit, state }) => {
       
- //     console.log(`store:axios:getAllMeetings: `)
+     console.log(`store:axios:getAllMeetings: `)
      // const home = {lat:44.9270729,lng:-93.4479148};
       // var uri = `/api/meetingsx/?miles=${5}&lat=${home.lat}&lng=${home.lng}`;
       var uri = `/api/meetingsx/?miles=${state.startMiles}&lat=${state.filters.lat}&lng=${state.filters.lng}`;

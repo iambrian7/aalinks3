@@ -164,11 +164,13 @@ export default {
     mounted: function () {
       // card = elements.create('card');
       // debugger
-      console.log(`store:stripeKey= ${this.$store.state.stripeKey}`)
+      // self.$store.state.meetings.home
+      console.log(`store:stripeKey= ${this.$store.state.stripe.stripeKey}`)
+      var key = this.$store.state.stripe.stripeKey
       // let elements = mountElements(`pk_test_UWB3Uz5xAWTWkF0BznCORJgb`)
-      if (this.$store.state.stripeKey){
+      if (key){
         console.log("mounted elements")
-          let elements = mountElements(this.$store.state.stripeKey)
+          let elements = mountElements(key)
           if (typeof this.card == "undefined"){
             this.card = elements.create('card', style);
           }
@@ -207,15 +209,15 @@ export default {
       this.clearCardErrors();
     },
     validateCard(){
+          // this.createToken();
+      var valid = this.validate();
+        if ( valid ){
+          alert(`validation true: ${JSON.stringify(this.card, null, 3)}`);
           this.createToken();
-      // var valid = this.validate();
-      //   if ( valid ){
-      //     alert(`validation true: ${JSON.stringify(this.card, null, 3)}`);
-      //     this.createToken();
-      //   } else {
-      //     alert(`validation error: ${JSON.stringify(this.card, null, 3)}`);
+        } else {
+          alert(`validation error: ${JSON.stringify(this.card, null, 3)}`);
 
-      //   }
+        }
     },
       validate(){
         console.log(`donate validate...........`)
@@ -379,7 +381,7 @@ export default {
     },
   computed: {
     keydone: function(){
-      var key = this.$store.state.stripeKey;
+      var key = this.$store.state.stripe.stripeKey;
       if (key){
         console.log('keydone is true')
         var self = this;

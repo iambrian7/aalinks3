@@ -60,7 +60,7 @@ export default new Vuex.Store({
     viewMeeting: null,
     selectedMeeting: null,
     activetab: 1,
-    stripeKey: null
+    stripeKey: "000000000"
   },
   //showing things, not mutating state
   getters: {
