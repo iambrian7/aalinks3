@@ -6,7 +6,7 @@
         v-for="(a, index) in meetings" 
         class='meeting-list-item' 
         @click="contentVisible === a.id ? contentVisible = false : contentVisible = a.id"
-        v-bind:key='a.name'
+        v-bind:key='index'
         >
       <!-- <li
         v-for="(a, index) in meetings" 
